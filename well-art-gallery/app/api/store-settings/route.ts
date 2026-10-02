@@ -1,2 +1,0 @@
-import {NextResponse} from 'next/server';import {createClient,hasSupabase} from '@/lib/supabase';
-export async function GET(){if(!hasSupabase())return NextResponse.json({});const {data}=await createClient().from('store_settings').select('whatsapp_number,whatsapp_template').eq('id',true).maybeSingle();return NextResponse.json(data||{}, {headers:{'Cache-Control':'public, s-maxage=300, stale-while-revalidate=600'}})}
