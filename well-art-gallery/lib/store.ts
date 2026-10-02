@@ -5,30 +5,20 @@ import {Product} from './types';
 function mapProduct(p:any):Product{
   const images=Array.isArray(p.image_urls)?p.image_urls.filter(Boolean):[];
   return {
-    id:p.id,
-    sku:p.sku,
-    slug:p.slug,
-    name:p.name,
-    description:p.description||'',
+    id:p.id, sku:p.sku, slug:p.slug, name:p.name, description:p.description||'',
     price:Number(p.price),
     compareAtPrice:p.compare_at_price==null?undefined:Number(p.compare_at_price),
-    stock:Number(p.stock||0),
-    images,
-    image:images[0]||'/placeholder.svg',
-    category:p.categories?.name||'Decor',
-    categorySlug:p.categories?.slug||'',
+    stock:Number(p.stock||0), images, image:images[0]||'/placeholder.svg',
+    category:p.categories?.name||'Decor', categorySlug:p.categories?.slug||'',
   };
 }
 
 export async function getCategories(){
-  if(!hasSupabase()){
-    return Array.from(new Map(
-      demoProducts.map(p=>[
-        p.category.toLowerCase().replace(/\s+/g,'-'),
-        {id:p.category,slug:p.category.toLowerCase().replace(/\s+/g,'-'),name:p.category}
-      ])
-    ).values());
-  }
+  if(!hasSupabase()) return Array.from(new Map(demoProducts.map(p=>[
+    p.category.toLowerCase().replace(/\s+/g,'-'),
+    {id:p.category,slug:p.category.toLowerCase().replace(/\s+/g,'-'),name:p.category}
+  ])).values());
+
   const sb=createClient();
   const {data}=await sb.from('categories').select('id,name,slug').order('name');
   return data||[];
@@ -61,17 +51,13 @@ export async function getProducts(opts:{q?:string;category?:string;page?:number;
   return {products:(data||[]).map(mapProduct),count:count||0};
 }
 
-/**
- * Homepage behavior: if the store has a normal-sized catalogue, show every
- * active product currently available. If the catalogue becomes very large,
- * cap the homepage feed so the browser never attempts to render thousands
- * of cards at once.
- */
+/* Homepage: newest active products first, maximum 20. */
 export async function getHomepageProducts(){
-  const MAX_HOME_PRODUCTS=200;
+  const MAX_HOME_PRODUCTS=20;
 
   if(!hasSupabase()){
-    return {products:demoProducts.slice(0,MAX_HOME_PRODUCTS),count:demoProducts.length};
+    // Never show the old demo catalogue on the production homepage.
+    return {products:[],count:0};
   }
 
   const sb=createClient();
@@ -99,18 +85,11 @@ export async function getProduct(slug:string):Promise<Product|null>{
   const sb=createClient();
   const {data}=await sb.from('products')
     .select('id,sku,slug,name,description,price,compare_at_price,stock,image_urls,categories(name,slug)')
-    .eq('slug',slug)
-    .eq('is_active',true)
-    .maybeSingle();
+    .eq('slug',slug).eq('is_active',true).maybeSingle();
   return data?mapProduct(data):null;
 }
 
 export async function getRelatedProducts(product:Product,limit=8){
   if(!product.categorySlug)return {products:[],count:0};
-  return getProducts({
-    category:product.categorySlug,
-    excludeId:product.id,
-    page:1,
-    limit,
-  });
+  return getProducts({category:product.categorySlug,excludeId:product.id,page:1,limit});
 }
