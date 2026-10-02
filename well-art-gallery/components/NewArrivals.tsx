@@ -1,62 +1,54 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, ArrowRight, Sparkles } from 'lucide-react';
-import { Product } from '@/lib/types';
-import { ProductCard } from './ProductCard';
+import {useEffect,useMemo,useState} from 'react';
+import {ArrowLeft,ArrowRight,Sparkles} from 'lucide-react';
+import {Product} from '@/lib/types';
+import {ProductCard} from './ProductCard';
 
-export function NewArrivals({ products }: { products: Product[] }) {
-  const items = useMemo(() => products.slice(0, 5), [products]);
-  const [index, setIndex] = useState(0);
-  const [perView, setPerView] = useState(4);
+export function NewArrivals({products}:{products:Product[]}){
+  const items=useMemo(()=>products.slice(0,5),[products]);
+  const [index,setIndex]=useState(0);
+  const [perView,setPerView]=useState(4);
 
-  useEffect(() => {
-    const update = () => setPerView(window.innerWidth <= 800 ? 2 : 4);
+  useEffect(()=>{
+    const update=()=>setPerView(window.innerWidth<=800?2:4);
     update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
-  }, []);
+    window.addEventListener('resize',update);
+    return()=>window.removeEventListener('resize',update);
+  },[]);
 
-  const maxIndex = Math.max(0, items.length - perView);
+  const maxIndex=Math.max(0,items.length-perView);
 
-  useEffect(() => {
-    if (items.length <= perView) return;
-    const timer = window.setInterval(() => {
-      setIndex(current => current >= maxIndex ? 0 : current + 1);
-    }, 3500);
-    return () => window.clearInterval(timer);
-  }, [items.length, perView, maxIndex]);
+  useEffect(()=>{
+    if(items.length<=perView)return;
+    const timer=window.setInterval(()=>setIndex(current=>current>=maxIndex?0:current+1),3500);
+    return()=>window.clearInterval(timer);
+  },[items.length,perView,maxIndex]);
 
-  useEffect(() => {
-    if (index > maxIndex) setIndex(maxIndex);
-  }, [index, maxIndex]);
+  useEffect(()=>{if(index>maxIndex)setIndex(maxIndex)},[index,maxIndex]);
 
-  if (!items.length) return null;
+  if(!items.length)return null;
 
-  const offset = index * (100 / perView);
+  const offset=index*(100/perView);
 
-  return (
+  return(
     <section className="new-arrivals" aria-labelledby="new-arrivals-title">
       <div className="container">
         <div className="new-arrivals-head">
           <div>
-            <p className="eyebrow"><Sparkles size={13} /> Just added</p>
+            <p className="eyebrow"><Sparkles size={13}/> Just added</p>
             <h2 id="new-arrivals-title">New <em>Arrivals.</em></h2>
-            <p className="new-arrivals-subtitle">Fresh artificial florals and decor, newly added to Well Art Gallery.</p>
+            <p className="new-arrivals-subtitle">Our latest products, added automatically from the admin catalogue.</p>
           </div>
           <div className="new-arrivals-actions">
-            <button type="button" aria-label="Previous new arrivals"
-              onClick={() => setIndex(current => current <= 0 ? maxIndex : current - 1)}
-              disabled={items.length <= perView}><ArrowLeft size={18}/></button>
-            <button type="button" aria-label="Next new arrivals"
-              onClick={() => setIndex(current => current >= maxIndex ? 0 : current + 1)}
-              disabled={items.length <= perView}><ArrowRight size={18}/></button>
+            <button type="button" aria-label="Previous new arrivals" onClick={()=>setIndex(c=>c<=0?maxIndex:c-1)} disabled={items.length<=perView}><ArrowLeft size={18}/></button>
+            <button type="button" aria-label="Next new arrivals" onClick={()=>setIndex(c=>c>=maxIndex?0:c+1)} disabled={items.length<=perView}><ArrowRight size={18}/></button>
           </div>
         </div>
 
         <div className="new-arrivals-window">
           <div className="new-arrivals-track" style={{transform:`translateX(-${offset}%)`}}>
-            {items.map(product => (
+            {items.map(product=>(
               <div className="new-arrival-slide" key={product.id}>
                 <ProductCard product={product}/>
               </div>
@@ -64,24 +56,23 @@ export function NewArrivals({ products }: { products: Product[] }) {
           </div>
         </div>
 
-        {items.length > perView && (
+        {items.length>perView&&(
           <div className="new-arrivals-dots">
             {Array.from({length:maxIndex+1}).map((_,dot)=>(
-              <button key={dot} type="button" aria-label={`Show slide ${dot+1}`}
-                className={dot===index?'active':''} onClick={()=>setIndex(dot)}/>
+              <button key={dot} type="button" aria-label={`Show slide ${dot+1}`} className={dot===index?'active':''} onClick={()=>setIndex(dot)}/>
             ))}
           </div>
         )}
       </div>
 
       <style jsx>{`
-        .new-arrivals{background:#fff;padding:54px 0 62px;border-bottom:1px solid #e8e8e8}
-        .new-arrivals-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:28px}
+        .new-arrivals{background:#fff;padding:44px 0 54px;border-bottom:1px solid #e8edf3}
+        .new-arrivals-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:24px}
         .new-arrivals .eyebrow{display:flex;align-items:center;gap:6px;margin:0 0 8px}
-        .new-arrivals h2{margin:0;font-size:clamp(34px,4vw,50px);line-height:.98;letter-spacing:-.04em;font-weight:500}
+        .new-arrivals h2{margin:0;font-size:clamp(30px,4vw,48px);line-height:.98;letter-spacing:-.04em;font-weight:500}
         .new-arrivals h2 em{font-family:Georgia,'Times New Roman',serif;font-weight:400;color:#1557b0}
-        .new-arrivals-subtitle{color:#687386;font-size:13px;margin:9px 0 0}
-        .new-arrivals-actions{display:flex;gap:8px;flex:0 0 auto}
+        .new-arrivals-subtitle{color:#687386;font-size:13px;margin:8px 0 0}
+        .new-arrivals-actions{display:flex;gap:8px}
         .new-arrivals-actions button{width:42px;height:42px;border-radius:50%;border:1px solid #d8e0ea;background:#fff;display:grid;place-items:center;cursor:pointer;color:#172033}
         .new-arrivals-actions button:hover:not(:disabled){border-color:#1557b0;color:#1557b0}
         .new-arrivals-actions button:disabled{opacity:.4;cursor:default}
@@ -90,57 +81,75 @@ export function NewArrivals({ products }: { products: Product[] }) {
         .new-arrival-slide{flex:0 0 25%;min-width:0;padding:0 9px}
         .new-arrival-slide:first-child{padding-left:0}.new-arrival-slide:last-child{padding-right:0}
 
-        /* FORCE mirror/arched silhouette only inside New Arrivals. */
         :global(.new-arrivals .new-arrival-slide .product-card){
           height:100% !important;
-          border:1px solid #dfe5ed !important;
-          border-radius:50% 50% 22px 22px / 34% 34% 22px 22px !important;
+          border:1px solid #d9e2ec !important;
+          border-radius:50% 50% 20px 20px / 28% 28% 20px 20px !important;
           overflow:hidden !important;
           background:#fff !important;
-          box-shadow:0 10px 30px rgba(18,45,78,.08) !important;
-          transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease !important;
+          box-shadow:0 10px 28px rgba(20,55,90,.08) !important;
         }
 
+        /* Mirror glass/arch: full product image stays visible, never cropped. */
         :global(.new-arrivals .new-arrival-slide .product-image){
-          aspect-ratio:1 / 1.03 !important;
-          border-radius:50% 50% 0 0 / 34% 34% 0 0 !important;
+          aspect-ratio:1 / 1.12 !important;
+          display:block !important;
+          position:relative !important;
           overflow:hidden !important;
           background:#fff !important;
+          border-radius:50% 50% 0 0 / 30% 30% 0 0 !important;
+          padding:12px !important;
+          box-sizing:border-box !important;
         }
-
         :global(.new-arrivals .new-arrival-slide .product-image img){
-          border-radius:50% 50% 0 0 / 34% 34% 0 0 !important;
+          width:100% !important;
+          height:100% !important;
           object-fit:contain !important;
           object-position:center !important;
+          transform:none !important;
+          border-radius:12px !important;
+        }
+        :global(.new-arrivals .new-arrival-slide .product-image span){
+          background:#dc2626 !important;
+          color:#fff !important;
+          z-index:3 !important;
+        }
+        :global(.new-arrivals .new-arrival-slide .product-body){
+          padding:12px 14px 14px !important;
+        }
+        :global(.new-arrivals .new-arrival-slide .product-name){
+          font-size:14px !important;
+          line-height:1.25 !important;
+          -webkit-line-clamp:2 !important;
+          max-height:2.5em !important;
+        }
+        :global(.new-arrivals .new-arrival-slide .price-row){
+          margin-top:10px !important;
         }
 
-        :global(.new-arrivals .new-arrival-slide .product-card:hover){
-          transform:translateY(-5px) !important;
-          border-color:#c9d8ea !important;
-          box-shadow:0 16px 36px rgba(18,75,135,.13) !important;
-        }
-
-        .new-arrivals-dots{display:flex;justify-content:center;gap:6px;margin-top:20px}
-        .new-arrivals-dots button{width:7px;height:7px;padding:0;border:0;border-radius:99px;background:#c9d2de;cursor:pointer;transition:width .2s,background .2s}
+        .new-arrivals-dots{display:flex;justify-content:center;gap:6px;margin-top:18px}
+        .new-arrivals-dots button{width:7px;height:7px;padding:0;border:0;border-radius:99px;background:#c9d2de;cursor:pointer}
         .new-arrivals-dots button.active{width:24px;background:#1557b0}
 
         @media(max-width:800px){
-          .new-arrivals{padding:34px 0 42px}
-          .new-arrivals-head{margin-bottom:20px;align-items:center}
-          .new-arrivals-subtitle{font-size:12px;max-width:280px}
-          .new-arrivals-actions button{width:38px;height:38px}
+          .new-arrivals{padding:30px 0 40px}
+          .new-arrivals-head{margin-bottom:18px;align-items:center}
+          .new-arrivals-subtitle{font-size:11px;max-width:250px}
+          .new-arrivals-actions button{width:36px;height:36px}
           .new-arrival-slide{flex-basis:50%;padding:0 5px}
           .new-arrival-slide:first-child{padding-left:0}.new-arrival-slide:last-child{padding-right:0}
 
           :global(.new-arrivals .new-arrival-slide .product-card){
-            border-radius:50% 50% 16px 16px / 30% 30% 16px 16px !important;
+            border-radius:50% 50% 15px 15px / 24% 24% 15px 15px !important;
           }
-          :global(.new-arrivals .new-arrival-slide .product-image),
-          :global(.new-arrivals .new-arrival-slide .product-image img){
-            aspect-ratio:1 / 1.08 !important;
-            border-radius:50% 50% 0 0 / 30% 30% 0 0 !important;
+          :global(.new-arrivals .new-arrival-slide .product-image){
+            aspect-ratio:1 / 1.10 !important;
+            padding:9px !important;
+            border-radius:50% 50% 0 0 / 26% 26% 0 0 !important;
           }
-          :global(.new-arrivals .new-arrival-slide .product-body){padding:10px}
+          :global(.new-arrivals .new-arrival-slide .product-name){
+            font-size:13px !important;
+          }
         }
       `}</style>
     </section>
