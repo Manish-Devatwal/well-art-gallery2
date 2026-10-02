@@ -277,3 +277,283 @@
   .home-products{padding-top:26px !important}
   .premium-heading h2{font-size:29px}
 }
+
+/* =========================================================
+   WELL ART GALLERY — PURE WHITE + PREMIUM BLUE THEME
+   Append this block to the END of app/globals.css
+   ========================================================= */
+
+:root{
+  --bg:#ffffff;
+  --text:#172033;
+  --muted:#687386;
+  --accent:#1557b0;
+  --accent2:#2f7ed8;
+  --line:#e3e8ef;
+  --soft:#ffffff;
+}
+
+/* Global */
+html,body{
+  background:#ffffff !important;
+  color:#172033;
+}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+/* Header — white + premium blue accent */
+.header{
+  background:rgba(255,255,255,.97) !important;
+  border-bottom:2px solid #1557b0 !important;
+  box-shadow:0 4px 18px rgba(21,87,176,.06);
+}
+.brand span,
+.navlinks a:hover,
+.section-title>a,
+.text-link,
+.eyebrow,
+.heart.selected{
+  color:#1557b0 !important;
+}
+.navlinks.open{
+  border-color:#dce5f0 !important;
+  background:#fff !important;
+}
+
+/* Announcement */
+.announcement-bar{
+  background:#1557b0 !important;
+  color:#fff !important;
+}
+.announcement-inner a{
+  color:#fff !important;
+}
+
+/* Buttons */
+.primary-btn,
+.buy-btn{
+  background:#1557b0 !important;
+  color:#fff !important;
+}
+.primary-btn:hover,
+.buy-btn:hover{
+  background:#0d438d !important;
+}
+.secondary-btn{
+  border-color:#cbd7e6 !important;
+}
+.premium-outline-btn{
+  border-color:#1557b0 !important;
+  color:#1557b0 !important;
+}
+
+/* Hero: keep image itself premium, but blue/white UI accents */
+.hero-premium{
+  background:#fff !important;
+}
+.hero-premium .primary-btn{
+  background:#fff !important;
+  color:#1557b0 !important;
+}
+.hero-premium .hero-arrow:hover{
+  background:rgba(21,87,176,.25) !important;
+}
+.hero-premium .dots button.active{
+  background:#fff !important;
+}
+
+/* Product cards — pure white */
+.product-card,
+.home-products .product-card,
+.new-arrival-slide .product-card{
+  background:#fff !important;
+  border-color:#e3e8ef !important;
+}
+.product-image,
+.home-products .product-image,
+.new-arrival-slide .product-image{
+  background:#fff !important;
+}
+.product-image img.product-preview-image{
+  background:#fff !important;
+}
+.product-image span{
+  border:1px solid #e3e8ef;
+}
+.muted{
+  color:#687386 !important;
+}
+
+/* New Arrivals — clean white section with blue details */
+.new-arrivals{
+  background:#fff !important;
+  border-bottom:1px solid #e3e8ef !important;
+}
+.new-arrivals h2 em{
+  color:#1557b0 !important;
+}
+.new-arrivals-actions button:hover:not(:disabled){
+  border-color:#1557b0 !important;
+  color:#1557b0 !important;
+}
+.new-arrivals-dots button.active{
+  background:#1557b0 !important;
+}
+
+/* Main product section */
+.home-products{
+  background:#fff !important;
+}
+.home-products .product-card{
+  box-shadow:0 8px 30px rgba(21,47,82,.055) !important;
+}
+.home-products .product-card:hover{
+  box-shadow:0 18px 45px rgba(21,47,82,.11) !important;
+}
+
+/* Categories — remove beige/colored blocks */
+.category-section{
+  background:#fff !important;
+}
+.luxury-category{
+  background:#fff !important;
+  border:1px solid #dfe6ef !important;
+  box-shadow:none !important;
+}
+.luxury-category:hover{
+  border-color:#1557b0 !important;
+  box-shadow:0 14px 35px rgba(21,87,176,.10) !important;
+}
+.category-tone-1,
+.category-tone-2,
+.category-tone-3,
+.category-tone-4{
+  background:#fff !important;
+}
+.category-number{
+  color:rgba(21,87,176,.45) !important;
+}
+.category-copy small{
+  color:#7a8799 !important;
+}
+.category-arrow{
+  background:#eef5ff !important;
+  color:#1557b0 !important;
+}
+.luxury-category:hover .category-arrow{
+  background:#1557b0 !important;
+  color:#fff !important;
+}
+
+/* Editorial area — pure white instead of cream */
+.editorial-section{
+  background:#fff !important;
+}
+.editorial-card{
+  background:#f8fbff !important;
+  color:#172033 !important;
+  border:1px solid #dfe8f3;
+  box-shadow:0 20px 60px rgba(21,47,82,.08) !important;
+}
+.editorial-copy p:not(.eyebrow){
+  color:#687386 !important;
+}
+.editorial-copy h2 em{
+  color:#1557b0 !important;
+}
+.editorial-art{
+  background:radial-gradient(circle at 45% 45%,#dcecff 0,#b9d5f5 28%,#e9f3ff 62%,#fff 100%) !important;
+}
+.dark-btn{
+  background:#1557b0 !important;
+  color:#fff !important;
+}
+
+/* Final CTA — white */
+.final-cta{
+  background:#fff !important;
+  border-top:1px solid #e3e8ef;
+}
+.final-cta h2 em{
+  color:#1557b0 !important;
+}
+.final-cta .primary-btn{
+  background:#1557b0 !important;
+}
+
+/* Trust strip */
+.trust-strip{
+  background:#fff !important;
+  border-color:#e3e8ef !important;
+  box-shadow:0 10px 30px rgba(21,47,82,.04) !important;
+}
+.trust-grid>div{
+  border-color:#e3e8ef !important;
+}
+.trust-grid svg{
+  color:#1557b0 !important;
+}
+
+/* Footer — keep it premium dark, but remove brown */
+.footer{
+  background:#0e1b2d !important;
+  color:#fff !important;
+}
+.footer p,
+.footer a{
+  color:#b9c6d8 !important;
+}
+.footer h3{
+  color:#fff !important;
+}
+.social-links a{
+  border-color:#40536c !important;
+}
+.copyright{
+  border-color:#31445d !important;
+  color:#91a1b5 !important;
+}
+
+/* Footer trust strip remains white */
+.footer-trust-strip{
+  background:#fff !important;
+}
+.footer-trust-strip .trust-grid{
+  background:#fff !important;
+}
+
+/* Search / forms */
+.search-input,
+.select,
+.admin-input{
+  border-color:#dce4ee !important;
+  background:#fff !important;
+}
+.search-input:focus,
+.select:focus,
+.admin-input:focus{
+  border-color:#1557b0 !important;
+  box-shadow:0 0 0 3px rgba(21,87,176,.08);
+}
+
+/* Detail/gallery surfaces */
+.product-detail-image,
+.gallery-main,
+.gallery-thumb{
+  background:#fff !important;
+}
+.gallery-thumb.active{
+  border-color:#1557b0 !important;
+}
+.gallery-main-nav:hover{
+  background:#1557b0 !important;
+  color:#fff !important;
+}
+
+/* Keep mobile 2-column product grid */
+@media(max-width:800px){
+  .product-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
