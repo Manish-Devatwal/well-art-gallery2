@@ -1,14 +1,16 @@
 import Link from 'next/link';
-import { ArrowRight, Sparkles, ShieldCheck, Truck, RefreshCcw, MessageCircle } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { Hero } from '@/components/Hero';
 import { ProductGrid } from '@/components/ProductGrid';
-import { SectionTitle } from '@/components/SectionTitle';
+import { NewArrivals } from '@/components/NewArrivals';
 import { getCategories, getHomepageProducts } from '@/lib/store';
 
 export default async function HomePage() {
   const productResult = await getHomepageProducts();
   const categories = await getCategories();
   const products = productResult.products;
+  const newArrivals = products.slice(0, 5);
+  const remainingProducts = products.slice(5);
 
   return (
     <main className="home-page">
@@ -21,43 +23,35 @@ export default async function HomePage() {
 
       <Hero />
 
-      <section className="trust-strip">
-        <div className="container trust-grid">
-          <div><ShieldCheck /><span><b>Quality checked</b><small>Thoughtfully selected decor</small></span></div>
-          <div><Truck /><span><b>Easy ordering</b><small>Quick WhatsApp assistance</small></span></div>
-          <div><RefreshCcw /><span><b>Made for everyday</b><small>Beauty without the upkeep</small></span></div>
-          <div><MessageCircle /><span><b>Personal help</b><small>We're one message away</small></span></div>
-        </div>
-      </section>
+      {/* NEW ARRIVALS: immediately below the hero */}
+      <NewArrivals products={newArrivals} />
 
-      <section className="section home-products">
-        <div className="container">
-          <div className="premium-heading">
-            <div>
-              <p className="eyebrow">The collection</p>
-              <h2>Flowers that make<br /><em>every space feel special.</em></h2>
-            </div>
-            <p>Discover statement florals, elegant bouquets and decor pieces designed to bring a polished finish to your home, celebration or gift.</p>
-          </div>
-
-          {products.length ? (
-            <ProductGrid products={products} />
-          ) : (
-            <div className="empty-card">
-              <h3>No products found</h3>
-              <p className="muted">Add products from the Admin panel.</p>
-            </div>
-          )}
-
-          {productResult.count > products.length && (
-            <div className="home-more">
-              <Link className="premium-outline-btn" href="/products">
-                View all {productResult.count.toLocaleString('en-IN')} products <ArrowRight size={16} />
+      {/* Main catalogue comes after New Arrivals */}
+      {remainingProducts.length > 0 && (
+        <section className="section home-products">
+          <div className="container">
+            <div className="premium-heading compact">
+              <div>
+                <p className="eyebrow">Shop the collection</p>
+                <h2>All <em>products.</em></h2>
+              </div>
+              <Link className="text-link" href="/products">
+                Browse everything <ArrowRight size={16} />
               </Link>
             </div>
-          )}
-        </div>
-      </section>
+
+            <ProductGrid products={remainingProducts} />
+
+            {productResult.count > products.length && (
+              <div className="home-more">
+                <Link className="premium-outline-btn" href="/products">
+                  View all {productResult.count.toLocaleString('en-IN')} products <ArrowRight size={16} />
+                </Link>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       <section className="section category-section">
         <div className="container">
@@ -66,7 +60,9 @@ export default async function HomePage() {
               <p className="eyebrow">Shop your mood</p>
               <h2>Find your <em>signature style.</em></h2>
             </div>
-            <Link className="text-link" href="/products">Browse everything <ArrowRight size={16} /></Link>
+            <Link className="text-link" href="/products">
+              Browse everything <ArrowRight size={16} />
+            </Link>
           </div>
 
           <div className="luxury-category-grid">
@@ -119,6 +115,20 @@ export default async function HomePage() {
           <Link href="/products" className="primary-btn">Shop the collection <ArrowRight size={16} /></Link>
         </div>
       </section>
+
+      <style>{`
+        /* Keep product previews clean: show the complete image instead of cropping/zooming. */
+        .home-products .product-image img,
+        .new-arrivals .product-image img {
+          object-fit: contain !important;
+          object-position: center !important;
+          transform: none !important;
+        }
+        .home-products .product-image,
+        .new-arrivals .product-image {
+          background: #fff;
+        }
+      `}</style>
     </main>
   );
 }
