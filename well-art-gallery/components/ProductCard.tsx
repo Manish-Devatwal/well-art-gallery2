@@ -32,11 +32,7 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="product-top">
           <div className="product-info">
             <p className="muted product-category">{product.category}</p>
-            <Link
-              href={`/products/${product.slug}`}
-              className="product-name"
-              title={product.name}
-            >
+            <Link href={`/products/${product.slug}`} className="product-name">
               {product.name}
             </Link>
           </div>
@@ -47,18 +43,12 @@ export function ProductCard({ product }: { product: Product }) {
             aria-label={wished ? 'Remove from wishlist' : 'Add to wishlist'}
             onClick={() => toggleWishlist(product)}
           >
-            <Heart size={20} fill={wished ? 'currentColor' : 'none'} />
+            <Heart size={18} fill={wished ? 'currentColor' : 'none'} />
           </button>
         </div>
 
         <div className="price-row">
-          <div className="card-price">
-            <b>₹{product.price.toLocaleString('en-IN')}</b>
-            {product.compareAtPrice && (
-              <del>₹{product.compareAtPrice.toLocaleString('en-IN')}</del>
-            )}
-          </div>
-
+          <b>₹{product.price.toLocaleString('en-IN')}</b>
           <div className="card-actions">
             <BuyNowButton product={product} />
             <AddToCartButton product={product} />
@@ -67,15 +57,10 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
 
       <style jsx>{`
-        /* Amazon-style compact catalogue card */
-        .product-card {
-          min-width: 0;
-        }
-
         .product-category {
-          font-size: 11px !important;
-          line-height: 1.2 !important;
-          margin: 0 0 3px !important;
+          font-size: 9px !important;
+          line-height: 1.1 !important;
+          margin: 0 0 2px !important;
         }
 
         .product-name {
@@ -84,142 +69,127 @@ export function ProductCard({ product }: { product: Product }) {
           -webkit-line-clamp: 2 !important;
           overflow: hidden !important;
           text-overflow: ellipsis !important;
-          height: 34px !important;
-          max-height: 34px !important;
+          height: 28px !important;
+          max-height: 28px !important;
           margin: 0 !important;
-          padding: 0 !important;
-          font-size: 13px !important;
-          line-height: 17px !important;
+          font-size: 10.5px !important;
+          line-height: 14px !important;
           font-weight: 600 !important;
-          letter-spacing: -0.01em !important;
+          letter-spacing: 0 !important;
         }
 
         .product-top {
-          min-height: 54px !important;
+          min-height: 43px !important;
           align-items: flex-start !important;
         }
 
         .product-info {
           min-width: 0 !important;
-          flex: 1 !important;
         }
 
         .heart {
-          flex: 0 0 34px !important;
-          width: 34px !important;
-          height: 34px !important;
-          margin-top: 4px !important;
+          width: 28px !important;
+          height: 28px !important;
+          flex: 0 0 28px !important;
+          margin: 0 !important;
         }
 
         .price-row {
-          margin-top: 9px !important;
-          padding-top: 8px !important;
+          margin-top: 6px !important;
+          padding-top: 6px !important;
           border-top: 1px solid #edf0f4 !important;
+          gap: 5px !important;
           align-items: center !important;
-          gap: 6px !important;
         }
 
-        .card-price {
-          min-width: 0;
-        }
-
-        .card-price b {
-          font-size: 15px !important;
+        .price-row > b {
+          font-size: 13px !important;
           line-height: 1 !important;
-        }
-
-        .card-price del {
-          display: none !important;
+          white-space: nowrap !important;
         }
 
         .card-actions {
           display: flex !important;
+          gap: 3px !important;
           align-items: center !important;
-          justify-content: flex-end !important;
-          gap: 5px !important;
-          flex-wrap: nowrap !important;
+          margin-left: auto !important;
         }
 
         .card-actions :global(button) {
-          padding: 7px 8px !important;
-          min-height: 32px !important;
-          height: 32px !important;
-          font-size: 10px !important;
+          min-height: 27px !important;
+          height: 27px !important;
+          padding: 5px 6px !important;
+          font-size: 8.5px !important;
           line-height: 1 !important;
-          border-radius: 8px !important;
+          border-radius: 7px !important;
           white-space: nowrap !important;
         }
 
         .product-badge {
           position: absolute !important;
-          top: 9px !important;
-          left: 9px !important;
+          top: 7px !important;
+          left: 7px !important;
           z-index: 4 !important;
+          padding: 4px 7px !important;
+          font-size: 9px !important;
+          line-height: 1 !important;
+          border-radius: 999px !important;
           background: #dc2626 !important;
           color: #fff !important;
-          padding: 5px 9px !important;
-          border-radius: 999px !important;
-          font-size: 10px !important;
-          line-height: 1 !important;
-          font-weight: 800 !important;
         }
 
         @media (max-width: 800px) {
           .product-body {
-            padding: 9px !important;
+            padding: 7px !important;
           }
 
           .product-category {
-            font-size: 10px !important;
+            font-size: 8px !important;
           }
 
           .product-name {
-            font-size: 12px !important;
-            line-height: 16px !important;
-            height: 32px !important;
-            max-height: 32px !important;
+            font-size: 10px !important;
+            line-height: 13px !important;
+            height: 26px !important;
+            max-height: 26px !important;
           }
 
           .product-top {
-            min-height: 49px !important;
+            min-height: 39px !important;
           }
 
           .heart {
-            width: 30px !important;
-            height: 30px !important;
-            flex-basis: 30px !important;
-          }
-
-          .heart :global(svg) {
-            width: 18px !important;
-            height: 18px !important;
+            width: 25px !important;
+            height: 25px !important;
+            flex-basis: 25px !important;
           }
 
           .price-row {
-            margin-top: 7px !important;
-            padding-top: 7px !important;
+            margin-top: 5px !important;
+            padding-top: 5px !important;
           }
 
-          .card-price b {
-            font-size: 14px !important;
+          .price-row > b {
+            font-size: 12px !important;
           }
 
           .card-actions {
-            gap: 3px !important;
+            gap: 2px !important;
           }
 
           .card-actions :global(button) {
-            padding: 6px 7px !important;
-            min-height: 30px !important;
-            height: 30px !important;
-            font-size: 9px !important;
+            min-height: 25px !important;
+            height: 25px !important;
+            padding: 4px 5px !important;
+            font-size: 7.5px !important;
+            border-radius: 6px !important;
           }
 
           .product-badge {
-            top: 7px !important;
-            left: 7px !important;
-            padding: 5px 8px !important;
-            font-size: 9px !important;
+            top: 6px !important;
+            left: 6px !important;
+            padding: 4px 7px !important;
+            font-size: 8px !important;
           }
         }
       `}</style>
