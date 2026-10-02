@@ -1,1 +1,0 @@
-import Link from 'next/link';export function SectionTitle({eyebrow,title,href}:{eyebrow?:string;title:string;href?:string}){return <div className="section-title"><div><p className="eyebrow">{eyebrow}</p><h2>{title}</h2></div>{href&&<Link href={href}>View all →</Link>}</div>}
