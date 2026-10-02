@@ -1,3 +1,4 @@
+'use client';
 import type {ReactNode} from 'react';
 import Link from 'next/link';
 import {useEffect,useState} from 'react';
