@@ -33,8 +33,7 @@ export function NewArrivals({ products }: { products: Product[] }) {
 
   if (!items.length) return null;
 
-  const cardWidth = 100 / perView;
-  const offset = index * cardWidth;
+  const offset = index * (100 / perView);
 
   return (
     <section className="new-arrivals" aria-labelledby="new-arrivals-title">
@@ -48,217 +47,100 @@ export function NewArrivals({ products }: { products: Product[] }) {
           <div className="new-arrivals-actions">
             <button type="button" aria-label="Previous new arrivals"
               onClick={() => setIndex(current => current <= 0 ? maxIndex : current - 1)}
-              disabled={items.length <= perView}>
-              <ArrowLeft size={18} />
-            </button>
+              disabled={items.length <= perView}><ArrowLeft size={18}/></button>
             <button type="button" aria-label="Next new arrivals"
               onClick={() => setIndex(current => current >= maxIndex ? 0 : current + 1)}
-              disabled={items.length <= perView}>
-              <ArrowRight size={18} />
-            </button>
+              disabled={items.length <= perView}><ArrowRight size={18}/></button>
           </div>
         </div>
 
         <div className="new-arrivals-window">
-          <div className="new-arrivals-track" style={{ transform: `translateX(-${offset}%)` }}>
+          <div className="new-arrivals-track" style={{transform:`translateX(-${offset}%)`}}>
             {items.map(product => (
               <div className="new-arrival-slide" key={product.id}>
-                <ProductCard product={product} />
+                <ProductCard product={product}/>
               </div>
             ))}
           </div>
         </div>
 
         {items.length > perView && (
-          <div className="new-arrivals-dots" aria-label="New arrivals slides">
-            {Array.from({ length: maxIndex + 1 }).map((_, dot) => (
-              <button key={dot} type="button"
-                aria-label={`Show new arrivals slide ${dot + 1}`}
-                className={dot === index ? 'active' : ''}
-                onClick={() => setIndex(dot)}
-              />
+          <div className="new-arrivals-dots">
+            {Array.from({length:maxIndex+1}).map((_,dot)=>(
+              <button key={dot} type="button" aria-label={`Show slide ${dot+1}`}
+                className={dot===index?'active':''} onClick={()=>setIndex(dot)}/>
             ))}
           </div>
         )}
       </div>
 
       <style jsx>{`
-        .new-arrivals {
-          background: #fff;
-          padding: 54px 0 62px;
-          border-bottom: 1px solid #e8e8e8;
+        .new-arrivals{background:#fff;padding:54px 0 62px;border-bottom:1px solid #e8e8e8}
+        .new-arrivals-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:28px}
+        .new-arrivals .eyebrow{display:flex;align-items:center;gap:6px;margin:0 0 8px}
+        .new-arrivals h2{margin:0;font-size:clamp(34px,4vw,50px);line-height:.98;letter-spacing:-.04em;font-weight:500}
+        .new-arrivals h2 em{font-family:Georgia,'Times New Roman',serif;font-weight:400;color:#1557b0}
+        .new-arrivals-subtitle{color:#687386;font-size:13px;margin:9px 0 0}
+        .new-arrivals-actions{display:flex;gap:8px;flex:0 0 auto}
+        .new-arrivals-actions button{width:42px;height:42px;border-radius:50%;border:1px solid #d8e0ea;background:#fff;display:grid;place-items:center;cursor:pointer;color:#172033}
+        .new-arrivals-actions button:hover:not(:disabled){border-color:#1557b0;color:#1557b0}
+        .new-arrivals-actions button:disabled{opacity:.4;cursor:default}
+        .new-arrivals-window{overflow:hidden;width:100%}
+        .new-arrivals-track{display:flex;transition:transform .55s cubic-bezier(.2,.7,.2,1);will-change:transform}
+        .new-arrival-slide{flex:0 0 25%;min-width:0;padding:0 9px}
+        .new-arrival-slide:first-child{padding-left:0}.new-arrival-slide:last-child{padding-right:0}
+
+        /* FORCE mirror/arched silhouette only inside New Arrivals. */
+        :global(.new-arrivals .new-arrival-slide .product-card){
+          height:100% !important;
+          border:1px solid #dfe5ed !important;
+          border-radius:50% 50% 22px 22px / 34% 34% 22px 22px !important;
+          overflow:hidden !important;
+          background:#fff !important;
+          box-shadow:0 10px 30px rgba(18,45,78,.08) !important;
+          transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease !important;
         }
 
-        .new-arrivals-head {
-          display: flex;
-          align-items: end;
-          justify-content: space-between;
-          gap: 24px;
-          margin-bottom: 28px;
+        :global(.new-arrivals .new-arrival-slide .product-image){
+          aspect-ratio:1 / 1.03 !important;
+          border-radius:50% 50% 0 0 / 34% 34% 0 0 !important;
+          overflow:hidden !important;
+          background:#fff !important;
         }
 
-        .new-arrivals .eyebrow {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          margin: 0 0 8px;
+        :global(.new-arrivals .new-arrival-slide .product-image img){
+          border-radius:50% 50% 0 0 / 34% 34% 0 0 !important;
+          object-fit:contain !important;
+          object-position:center !important;
         }
 
-        .new-arrivals h2 {
-          margin: 0;
-          font-size: clamp(34px, 4vw, 50px);
-          line-height: .98;
-          letter-spacing: -.04em;
-          font-weight: 500;
+        :global(.new-arrivals .new-arrival-slide .product-card:hover){
+          transform:translateY(-5px) !important;
+          border-color:#c9d8ea !important;
+          box-shadow:0 16px 36px rgba(18,75,135,.13) !important;
         }
 
-        .new-arrivals h2 em {
-          font-family: Georgia, 'Times New Roman', serif;
-          font-weight: 400;
-          color: #1557b0;
-        }
+        .new-arrivals-dots{display:flex;justify-content:center;gap:6px;margin-top:20px}
+        .new-arrivals-dots button{width:7px;height:7px;padding:0;border:0;border-radius:99px;background:#c9d2de;cursor:pointer;transition:width .2s,background .2s}
+        .new-arrivals-dots button.active{width:24px;background:#1557b0}
 
-        .new-arrivals-subtitle {
-          color: #687386;
-          font-size: 13px;
-          margin: 9px 0 0;
-        }
+        @media(max-width:800px){
+          .new-arrivals{padding:34px 0 42px}
+          .new-arrivals-head{margin-bottom:20px;align-items:center}
+          .new-arrivals-subtitle{font-size:12px;max-width:280px}
+          .new-arrivals-actions button{width:38px;height:38px}
+          .new-arrival-slide{flex-basis:50%;padding:0 5px}
+          .new-arrival-slide:first-child{padding-left:0}.new-arrival-slide:last-child{padding-right:0}
 
-        .new-arrivals-actions {
-          display: flex;
-          gap: 8px;
-          flex: 0 0 auto;
-        }
-
-        .new-arrivals-actions button {
-          width: 42px;
-          height: 42px;
-          border-radius: 50%;
-          border: 1px solid #d8e0ea;
-          background: #fff;
-          display: grid;
-          place-items: center;
-          cursor: pointer;
-          color: #172033;
-        }
-
-        .new-arrivals-actions button:hover:not(:disabled) {
-          border-color: #1557b0;
-          color: #1557b0;
-        }
-
-        .new-arrivals-actions button:disabled {
-          opacity: .4;
-          cursor: default;
-        }
-
-        .new-arrivals-window {
-          overflow: hidden;
-          width: 100%;
-        }
-
-        .new-arrivals-track {
-          display: flex;
-          transition: transform .55s cubic-bezier(.2,.7,.2,1);
-          will-change: transform;
-        }
-
-        .new-arrival-slide {
-          flex: 0 0 25%;
-          min-width: 0;
-          padding: 0 9px;
-        }
-
-        .new-arrival-slide:first-child { padding-left: 0; }
-        .new-arrival-slide:last-child { padding-right: 0; }
-
-        /* Premium mirror-arch shape — New Arrivals only */
-        .new-arrival-slide .product-card {
-          height: 100%;
-          border: 1px solid #dfe5ed;
-          border-radius: 150px 150px 22px 22px / 108px 108px 22px 22px;
-          overflow: hidden;
-          background: #fff;
-          box-shadow: 0 10px 30px rgba(18, 45, 78, .08);
-          transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
-        }
-
-        .new-arrival-slide .product-image {
-          aspect-ratio: 1 / 1.03;
-          border-radius: 50% 50% 0 0 / 30% 30% 0 0;
-          overflow: hidden;
-          background: #fff;
-        }
-
-        .new-arrival-slide .product-card:hover {
-          transform: translateY(-5px);
-          border-color: #c9d8ea;
-          box-shadow: 0 16px 36px rgba(18, 75, 135, .13);
-        }
-
-        .new-arrivals-dots {
-          display: flex;
-          justify-content: center;
-          gap: 6px;
-          margin-top: 20px;
-        }
-
-        .new-arrivals-dots button {
-          width: 7px;
-          height: 7px;
-          padding: 0;
-          border: 0;
-          border-radius: 99px;
-          background: #c9d2de;
-          cursor: pointer;
-          transition: width .2s, background .2s;
-        }
-
-        .new-arrivals-dots button.active {
-          width: 24px;
-          background: #1557b0;
-        }
-
-        @media (max-width: 800px) {
-          .new-arrivals {
-            padding: 34px 0 42px;
+          :global(.new-arrivals .new-arrival-slide .product-card){
+            border-radius:50% 50% 16px 16px / 30% 30% 16px 16px !important;
           }
-
-          .new-arrivals-head {
-            margin-bottom: 20px;
-            align-items: center;
+          :global(.new-arrivals .new-arrival-slide .product-image),
+          :global(.new-arrivals .new-arrival-slide .product-image img){
+            aspect-ratio:1 / 1.08 !important;
+            border-radius:50% 50% 0 0 / 30% 30% 0 0 !important;
           }
-
-          .new-arrivals-subtitle {
-            font-size: 12px;
-            max-width: 280px;
-          }
-
-          .new-arrivals-actions button {
-            width: 38px;
-            height: 38px;
-          }
-
-          .new-arrival-slide {
-            flex-basis: 50%;
-            padding: 0 5px;
-          }
-
-          .new-arrival-slide:first-child { padding-left: 0; }
-          .new-arrival-slide:last-child { padding-right: 0; }
-
-          .new-arrival-slide .product-card {
-            border-radius: 92px 92px 16px 16px / 72px 72px 16px 16px;
-          }
-
-          .new-arrival-slide .product-image {
-            aspect-ratio: 1 / 1.08;
-            border-radius: 50% 50% 0 0 / 28% 28% 0 0;
-          }
-
-          .new-arrival-slide .product-body {
-            padding: 10px;
-          }
+          :global(.new-arrivals .new-arrival-slide .product-body){padding:10px}
         }
       `}</style>
     </section>
