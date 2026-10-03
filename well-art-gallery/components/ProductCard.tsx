@@ -12,8 +12,18 @@ export function ProductCard({ product }: { product: Product }) {
   const wished = isWishlisted(product.id);
 
   return (
-    <article className="product-card">
-      <Link href={`/products/${product.slug}`} className="product-image">
+    <article
+      className="product-card"
+      style={{
+        minWidth: 0,
+        overflow: 'hidden',
+      }}
+    >
+      <Link
+        href={`/products/${product.slug}`}
+        className="product-image"
+        style={{ display: 'block' }}
+      >
         <img
           src={product.image || '/placeholder.svg'}
           alt={product.name}
@@ -22,20 +32,69 @@ export function ProductCard({ product }: { product: Product }) {
           decoding="async"
         />
 
-        <span className="product-badge">New</span>
+        <span
+          className="product-badge"
+          style={{
+            background: '#dc2626',
+            color: '#fff',
+            fontSize: 9,
+            padding: '4px 7px',
+            borderRadius: 999,
+          }}
+        >
+          New
+        </span>
       </Link>
 
-      <div className="product-body">
-        <div className="product-top">
-          <div className="product-info">
-            <p className="muted product-category">
+      <div
+        className="product-body"
+        style={{
+          padding: '8px 9px 9px',
+        }}
+      >
+        <div
+          className="product-top"
+          style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 5,
+            minHeight: 44,
+          }}
+        >
+          <div
+            className="product-info"
+            style={{
+              minWidth: 0,
+              flex: 1,
+            }}
+          >
+            <p
+              className="muted"
+              style={{
+                fontSize: 8,
+                lineHeight: '10px',
+                margin: '0 0 2px',
+              }}
+            >
               {product.category}
             </p>
 
             <Link
               href={`/products/${product.slug}`}
-              className="product-name"
               title={product.name}
+              style={{
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 2,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                height: 28,
+                maxHeight: 28,
+                fontSize: 10.5,
+                lineHeight: '14px',
+                fontWeight: 600,
+                letterSpacing: 0,
+              }}
             >
               {product.name}
             </Link>
@@ -50,20 +109,50 @@ export function ProductCard({ product }: { product: Product }) {
                 : 'Add to wishlist'
             }
             onClick={() => toggleWishlist(product)}
+            style={{
+              width: 26,
+              height: 26,
+              minWidth: 26,
+              flexShrink: 0,
+              padding: 0,
+            }}
           >
             <Heart
-              size={18}
+              size={17}
               fill={wished ? 'currentColor' : 'none'}
             />
           </button>
         </div>
 
-        <div className="price-row">
-          <b>
+        <div
+          className="price-row"
+          style={{
+            marginTop: 6,
+            paddingTop: 6,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
+          }}
+        >
+          <b
+            style={{
+              fontSize: 13,
+              lineHeight: 1,
+              whiteSpace: 'nowrap',
+            }}
+          >
             ₹{product.price.toLocaleString('en-IN')}
           </b>
 
-          <div className="card-actions">
+          <div
+            className="card-actions"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 3,
+              marginLeft: 'auto',
+            }}
+          >
             <BuyNowButton product={product} />
             <AddToCartButton product={product} />
           </div>
@@ -71,157 +160,31 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
 
       <style jsx>{`
-        .product-category {
-          font-size: 10px !important;
-          line-height: 1.15 !important;
-          margin: 0 0 3px !important;
-        }
-
-        .product-name {
-          display: -webkit-box !important;
-          -webkit-box-orient: vertical !important;
-          -webkit-line-clamp: 2 !important;
-          overflow: hidden !important;
-          text-overflow: ellipsis !important;
-
-          height: 30px !important;
-          max-height: 30px !important;
-
-          margin: 0 !important;
-          padding: 0 !important;
-
-          font-size: 11.5px !important;
-          line-height: 15px !important;
-          font-weight: 600 !important;
-        }
-
-        .product-top {
-          min-height: 43px !important;
-          align-items: flex-start !important;
-        }
-
-        .product-info {
-          min-width: 0 !important;
-          flex: 1 !important;
-        }
-
-        .heart {
-          width: 28px !important;
-          height: 28px !important;
-          flex: 0 0 28px !important;
-          margin: 0 !important;
-        }
-
-        .price-row {
-          margin-top: 7px !important;
-          padding-top: 7px !important;
-          border-top: 1px solid #edf0f4 !important;
-
-          gap: 5px !important;
-          align-items: center !important;
-        }
-
-        .price-row > b {
-          font-size: 14px !important;
-          line-height: 1 !important;
-          white-space: nowrap !important;
-        }
-
-        .card-actions {
-          display: flex !important;
-          gap: 3px !important;
-          align-items: center !important;
-          margin-left: auto !important;
-        }
-
         .card-actions :global(button) {
-          min-height: 28px !important;
-          height: 28px !important;
-
-          padding: 6px 7px !important;
-
-          font-size: 8.5px !important;
+          min-height: 25px !important;
+          height: 25px !important;
+          padding: 4px 6px !important;
+          font-size: 8px !important;
           line-height: 1 !important;
-
-          border-radius: 7px !important;
+          border-radius: 6px !important;
           white-space: nowrap !important;
         }
 
-        .product-badge {
-          position: absolute !important;
+        @media (min-width: 801px) {
+          .product-body {
+            padding: 9px 10px 10px !important;
+          }
 
-          top: 8px !important;
-          left: 8px !important;
-
-          z-index: 4 !important;
-
-          padding: 4px 8px !important;
-
-          font-size: 9px !important;
-          line-height: 1 !important;
-
-          border-radius: 999px !important;
-
-          background: #dc2626 !important;
-          color: #fff !important;
+          .product-info > a {
+            font-size: 11px !important;
+            line-height: 14px !important;
+          }
         }
 
-        @media (max-width: 800px) {
-          .product-body {
-            padding: 8px !important;
-          }
-
-          .product-category {
-            font-size: 8.5px !important;
-          }
-
-          .product-name {
-            font-size: 10.5px !important;
-            line-height: 14px !important;
-
-            height: 28px !important;
-            max-height: 28px !important;
-          }
-
-          .product-top {
-            min-height: 41px !important;
-          }
-
-          .heart {
-            width: 26px !important;
-            height: 26px !important;
-            flex-basis: 26px !important;
-          }
-
-          .price-row {
-            margin-top: 6px !important;
-            padding-top: 6px !important;
-          }
-
-          .price-row > b {
-            font-size: 13px !important;
-          }
-
-          .card-actions {
-            gap: 2px !important;
-          }
-
+        @media (max-width: 380px) {
           .card-actions :global(button) {
-            min-height: 26px !important;
-            height: 26px !important;
-
-            padding: 5px 6px !important;
-
-            font-size: 8px !important;
-            border-radius: 6px !important;
-          }
-
-          .product-badge {
-            top: 6px !important;
-            left: 6px !important;
-
-            padding: 4px 7px !important;
-            font-size: 8px !important;
+            padding: 4px 5px !important;
+            font-size: 7px !important;
           }
         }
       `}</style>
